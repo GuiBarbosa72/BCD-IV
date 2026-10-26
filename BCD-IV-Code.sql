@@ -118,88 +118,73 @@ INSERT INTO item_os (id_os, id_servico, quantidade, preco_praticado) VALUES
 (5, 3, 1, 350.00),
 (5, 5, 1, 600.00);
 
--- Consulta 1: Listar vendas com nome do cliente, vendedor e veículo
 SELECT v.id_venda, v.data_venda, c.nome AS cliente, vd.nome AS vendedor, vei.modelo, v.valor_total
 FROM venda v
 INNER JOIN cliente c ON v.id_cliente = c.id_cliente
 INNER JOIN vendedor vd ON v.id_vendedor = vd.id_vendedor
 INNER JOIN veiculo vei ON v.id_veiculo = vei.id_veiculo;
 
--- Consulta 2: Veículos disponíveis ou abaixo de R$ 130.000,00
 SELECT marca, modelo, ano_fabricacao, preco 
 FROM veiculo 
 WHERE status = 'Disponível' OR preco < 130000.00;
 
--- Consulta 3: Buscar clientes com "Souza" ou "Silva"
 SELECT * FROM cliente 
 WHERE nome LIKE '%Silva%' OR nome LIKE '%Souza%';
 
--- Consulta 4: Total de vendas e faturamento por vendedor
 SELECT vd.nome AS vendedor, COUNT(v.id_venda) AS total_vendas, SUM(v.valor_total) AS faturamento
 FROM venda v
 INNER JOIN vendedor vd ON v.id_vendedor = vd.id_vendedor
 GROUP BY vd.nome;
 
--- Consulta 5: Vendas realizadas no primeiro bimestre de 2026
 SELECT id_venda, data_venda, valor_total 
 FROM venda 
 WHERE data_venda BETWEEN '2026-01-01' AND '2026-02-28'
 ORDER BY data_venda ASC;
 
--- Consulta 6: Comissões a serem pagas por venda
 SELECT v.id_venda, vd.nome AS vendedor, v.valor_total,
        ROUND((v.valor_total * vd.comissao_percentual / 100), 2) AS comissao_receber
 FROM venda v
 INNER JOIN vendedor vd ON v.id_vendedor = vd.id_vendedor;
 
--- Consulta 7: Média do valor das Ordens de Serviço
 SELECT ROUND(AVG(valor_total), 2) AS media_valor_os 
 FROM ordem_servico;
 
--- Consulta 8: Ordens de serviço ordenadas pelo maior valor
 SELECT os.id_os, c.nome AS cliente, vei.modelo, os.valor_total
 FROM ordem_servico os
 INNER JOIN cliente c ON os.id_cliente = c.id_cliente
 INNER JOIN veiculo vei ON os.id_veiculo = vei.id_veiculo
 ORDER BY os.valor_total DESC;
 
--- Consulta 9: Veículos com histórico de ordem de serviço
 SELECT vei.modelo, vei.chassi, os.data_abertura, os.descricao_problema
 FROM ordem_servico os
 INNER JOIN veiculo vei ON os.id_veiculo = vei.id_veiculo;
 
--- Consulta 10: Vendedores com faturamento total superior a R$ 100.000,00
 SELECT vd.nome, SUM(v.valor_total) AS faturamento_total
 FROM venda v
 INNER JOIN vendedor vd ON v.id_vendedor = vd.id_vendedor
 GROUP BY vd.nome
 HAVING SUM(v.valor_total) > 100000.00;
 
--- Consulta 11: Serviços executados que custam mais de R$ 200,00
 SELECT DISTINCT s.nome_servico, s.preco_tabela
 FROM servico s
 INNER JOIN item_os io ON s.id_servico = io.id_servico
 WHERE s.preco_tabela > 200.00;
 
--- Consulta 12: Contagem de veículos por marca
 SELECT marca, COUNT(*) AS quantidade_veiculos 
 FROM veiculo 
 GROUP BY marca;
 
--- Consulta 13: Detalhamento dos itens da Ordem de Serviço 5
 SELECT os.id_os, s.nome_servico, io.quantidade, io.preco_praticado
 FROM item_os io
 INNER JOIN servico s ON io.id_servico = s.id_servico
 INNER JOIN ordem_servico os ON io.id_os = os.id_os
 WHERE os.id_os = 5;
 
--- Consulta 14: Clientes sem Ordem de Serviço
 SELECT c.nome, c.telefone, c.email
 FROM cliente c
 LEFT JOIN ordem_servico os ON c.id_cliente = os.id_cliente
 WHERE os.id_os IS NULL;
 
--- Consulta 15: Veículo mais caro cadastrado
 SELECT marca, modelo, ano_fabricacao, preco 
 FROM veiculo 
 WHERE preco = (SELECT MAX(preco) FROM veiculo);
