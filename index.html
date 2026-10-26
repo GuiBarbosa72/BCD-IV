@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concessionária | Banco de Dados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Michroma&family=Squada+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Concessionária</h1>
+  <p>Clientes, vendedores, veículos, vendas e ordens de serviço do banco de dados em um só lugar.</p>
+</header>
+<main>
+  <div class="stats" id="stats"></div>
+
+  <section>
+    <h2>Tabelas</h2>
+    <p class="caption">Escolha uma tabela para ver os registros.</p>
+    <div class="btns" id="tabs"></div>
+    <div class="wrap"><table id="tbl"></table></div>
+  </section>
+
+  <section>
+    <h2>Consultas</h2>
+    <p class="caption">As 15 consultas do script SQL, executadas sobre os dados.</p>
+    <select id="q" aria-label="Escolher consulta"></select>
+    <p class="sql" id="qsql"></p>
+    <div class="wrap"><table id="qtbl"></table></div>
+  </section>
+</main>
+<footer>Banco de dados: concessionaria. Dados de exemplo carregados do script SQL.</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
