@@ -1,7 +1,3 @@
--- =========================================================
--- 1. CRIAÇÃO DO BANCO DE DADOS E TABELAS
--- =========================================================
-
 CREATE DATABASE IF NOT EXISTS concessionaria;
 USE concessionaria;
 
@@ -69,11 +65,6 @@ CREATE TABLE item_os (
     FOREIGN KEY (id_servico) REFERENCES servico(id_servico)
 );
 
--- =========================================================
--- 2. INSERÇÃO DOS DADOS (POVOAMENTO)
--- =========================================================
-
--- Inserindo Clientes
 INSERT INTO cliente (nome, cpf_cnpj, telefone, email) VALUES
 ('Carlos Silva', '111.222.333-44', '(11) 98765-4321', 'carlos@email.com'),
 ('Ana Maria Souza', '222.333.444-55', '(11) 97654-3210', 'ana.souza@email.com'),
@@ -81,7 +72,6 @@ INSERT INTO cliente (nome, cpf_cnpj, telefone, email) VALUES
 ('Roberto Santos', '444.555.666-77', '(21) 99887-6655', 'roberto@email.com'),
 ('Mariana Lima', '555.666.777-88', '(31) 98877-1122', 'mariana@email.com');
 
--- Inserindo Vendedores
 INSERT INTO vendedor (nome, cpf, comissao_percentual) VALUES
 ('João Pereira', '123.456.789-01', 2.50),
 ('Beatriz Costa', '234.567.890-12', 3.00),
@@ -89,7 +79,6 @@ INSERT INTO vendedor (nome, cpf, comissao_percentual) VALUES
 ('Patricia Rocha', '456.789.012-34', 2.80),
 ('Lucas Mendes', '567.890.123-45', 3.00);
 
--- Inserindo Veículos
 INSERT INTO veiculo (chassi, modelo, marca, ano_fabricacao, preco, status) VALUES
 ('9BWZZZ377VT001001', 'Onix', 'Chevrolet', 2023, 75000.00, 'Vendido'),
 ('9BWZZZ377VT001002', 'Corolla', 'Toyota', 2024, 150000.00, 'Vendido'),
@@ -98,7 +87,6 @@ INSERT INTO veiculo (chassi, modelo, marca, ano_fabricacao, preco, status) VALUE
 ('9BWZZZ377VT001005', 'HB20', 'Hyundai', 2023, 70000.00, 'Vendido'),
 ('9BWZZZ377VT001006', 'Renegade', 'Jeep', 2024, 125000.00, 'Disponível');
 
--- Inserindo Vendas
 INSERT INTO venda (data_venda, valor_total, id_cliente, id_vendedor, id_veiculo) VALUES
 ('2026-01-15', 75000.00, 1, 1, 1),
 ('2026-01-20', 150000.00, 2, 2, 2),
@@ -106,7 +94,6 @@ INSERT INTO venda (data_venda, valor_total, id_cliente, id_vendedor, id_veiculo)
 ('2026-02-15', 180000.00, 4, 3, 4),
 ('2026-03-01', 70000.00, 5, 4, 5);
 
--- Inserindo Serviços
 INSERT INTO servico (nome_servico, preco_tabela) VALUES
 ('Troca de Óleo e Filtro', 250.00),
 ('Alinhamento e Balanceamento', 180.00),
@@ -114,7 +101,6 @@ INSERT INTO servico (nome_servico, preco_tabela) VALUES
 ('Higienização de Ar Condicionado', 150.00),
 ('Troca de Correia Dentada', 600.00);
 
--- Inserindo Ordens de Serviço
 INSERT INTO ordem_servico (data_abertura, descricao_problema, valor_total, id_veiculo, id_cliente) VALUES
 ('2026-03-10', 'Revisão periódica de 10.000km', 430.00, 1, 1),
 ('2026-03-12', 'Barulho ao frear e direção puxando', 530.00, 2, 2),
@@ -122,7 +108,6 @@ INSERT INTO ordem_servico (data_abertura, descricao_problema, valor_total, id_ve
 ('2026-03-20', 'Ar condicionado com mau cheiro', 150.00, 4, 4),
 ('2026-03-22', 'Revisão geral e troca de correia', 950.00, 5, 5);
 
--- Inserindo Itens nas Ordens de Serviço
 INSERT INTO item_os (id_os, id_servico, quantidade, preco_praticado) VALUES
 (1, 1, 1, 250.00),
 (1, 2, 1, 180.00),
@@ -132,10 +117,6 @@ INSERT INTO item_os (id_os, id_servico, quantidade, preco_praticado) VALUES
 (4, 4, 1, 150.00),
 (5, 3, 1, 350.00),
 (5, 5, 1, 600.00);
-
--- =========================================================
--- 3. AS 15 CONSULTAS SQL
--- =========================================================
 
 -- Consulta 1: Listar vendas com nome do cliente, vendedor e veículo
 SELECT v.id_venda, v.data_venda, c.nome AS cliente, vd.nome AS vendedor, vei.modelo, v.valor_total
